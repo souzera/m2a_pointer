@@ -8,6 +8,7 @@ class Empresa(models.Model):
         return self.nome
 
 class Funcionario(models.Model):
+    usuario = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     email = models.EmailField()
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
@@ -20,9 +21,6 @@ class Ponto(models.Model):
     data = models.DateField(auto_created=True)
     entrada = models.TimeField()
     saida = models.TimeField()
-
-    def getDiff(self):
-        return self.saida - self.entrada
 
     def __str__(self):
         return f"{self.funcionario.nome} - {self.data}"
