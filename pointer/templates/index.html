@@ -15,11 +15,63 @@
       href="{% static 'images/favicon.ico' %}"
       type="image/x-icon"
     />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     <title>M2A Pointer</title>
   </head>
 
-  <body>
-    <h1>hello world</h1>
+  <body class="center vertical">
+    <header>
+      <a href="/">
+        <img id="header-img" src="{% static 'images/icon.svg' %}" alt="ícone" width="100" />
+      </a>
+      <h1>Bem-vindo ao M2A Pointer</h1>
+      <nav>
+        <ul class="center" >
+          <li><a href="">Início</a></li>
+          <li><a href="">Login</a></li>
+          <li><a href="">Registrar</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h2>Sistema de Ponto Eletrônico</h2>
+          <p>
+            Gerencie o ponto eletrônico dos funcionários de forma fácil e
+            eficiente.
+          </p>
+          <a href="#" class="cta-button">Comece Agora</a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Sobre o Projeto</h2>
+        <p>
+          Este é um sistema de ponto eletrônico desenvolvido como parte do
+          Desafio Técnico M2A.
+        </p>
+        <p>Utilize o menu acima para navegar pelo sistema.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        &copy; <span id="ano-atual"></span> Matheus Barbosa. Todos os direitos
+        reservados.
+      </p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+      // Atualizar ANO no Rodapé
+      document.addEventListener("DOMContentLoaded", function () {
+        var yearSpan = document.getElementById("ano-atual");
+        var currentYear = new Date().getFullYear();
+        yearSpan.textContent = currentYear;
+      });
+    </script>
   </body>
 </html>
