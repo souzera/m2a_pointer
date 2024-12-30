@@ -67,6 +67,29 @@ header nav ul li a:hover {
     font-size: 1.3rem;
 }
 
+form input{
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+form button{
+    width: 80%;
+    font-size: larger;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 3px solid #000;
+    border-radius: 124px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+form button:hover{
+    scale: 1.1;
+}
+
 .center{
     display: flex;
     justify-content: center;
@@ -79,6 +102,18 @@ header nav ul li a:hover {
 
 .row{
     flex-direction: row;
+}
+
+.space-between{
+    justify-content: space-between;
+}
+
+.space-evenly{
+    justify-content: space-evenly;
+}
+
+.text-center{
+    text-align: center;
 }
 
 

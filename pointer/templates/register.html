@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Matheus Barbosa" />
+    <meta name="description" content="Desafio Técnico M2A, ponto eletrônico" />
+    <meta name="keywords" content="M2A, Ponto Eletrônico, Desafio Técnico" />
+    <meta name="github" content="/souzera" />
+    <meta name="linkedin" content="/in/matheus-bsouza/" />
+
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/favicon.ico' %}"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <title>M2A Pointer</title>
+  </head>
+<body style="padding-inline: 10vw;">
+    <header class="center space-between">
+        <h1>M2A Pointer</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Início</a></li>
+                <li><a href="/login">Entrar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="center space-evenly">
+        <section>
+
+            <form class="center vertical" action="/register/" method="post">
+                {% csrf_token %}
+                <label for="name">Nome Completo</label>
+                <input name="name" type="text">
+                
+                <label for="username">Login</label>
+                <input name="username" type="text">
+                {% if "INVALID_USER" in errors %}
+                    <span style="color: red; font-size: small;">Usuario indisponível</span>
+                {% endif %}
+                {% if "USER_UNAVAILABLE" in errors %}
+                    <span style="color: red; font-size: small;">Usuario indisponível</span>
+                {% endif %}
+                
+                <label for="email">Email</label>
+                <input name="email" type="email">
+
+                <label for="password">Senha</label>
+                <input name="password" type="password">
+                {% if "INVALID_PASSWORD" in errors %}
+                    <span style="color: red; font-size: small;">Senha deve conter ao menos 8 caracteres</span>
+                {% endif %}
+
+
+                <label for="confirm-password">Confirmar Senha</label>
+                <input name="confirm-password" type="password">
+                {% if "UNEQUAL_PASSWORD" in errors %}
+                    <span style="color: red; font-size: small;">Senhas não conferem</span>
+                {% endif %}
+
+                <button type="submit">Cadastrar-se</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
