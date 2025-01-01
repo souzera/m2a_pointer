@@ -19,53 +19,80 @@
 
     <title>M2A Pointer</title>
   </head>
-<body style="padding-inline: 10vw;">
+  <body style="padding-inline: 10vw">
     <header class="center space-between">
-        <h1>M2A Pointer</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Início</a></li>
-                <li><a href="/login">Entrar</a></li>
-            </ul>
-        </nav>
+      <h1>M2A Pointer</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Início</a></li>
+          <li><a href="/login">Entrar</a></li>
+        </ul>
+      </nav>
     </header>
 
     <main class="center space-evenly">
-        <section>
+      <section>
+        <form class="center flex-start" style="gap: 32px;" action="/register/" method="post">
+          {% csrf_token %}
 
-            <form class="center vertical" action="/register/" method="post">
-                {% csrf_token %}
-                <label for="name">Nome Completo</label>
-                <input name="name" type="text">
-                
-                <label for="username">Login</label>
-                <input name="username" type="text">
-                {% if "INVALID_USER" in errors %}
-                    <span style="color: red; font-size: small;">Usuario indisponível</span>
-                {% endif %}
-                {% if "USER_UNAVAILABLE" in errors %}
-                    <span style="color: red; font-size: small;">Usuario indisponível</span>
-                {% endif %}
-                
-                <label for="email">Email</label>
-                <input name="email" type="email">
+          <div
+          class="center vertical flex-start"
+          >
+          <img style="width: 128px;" src="{% static 'images/office.png' %}" alt="icon">
+          <br />
+            <label for="empresa">Selecione uma Empresa</label>
+            <select name="empresa">
+              {% for empresa in empresas %}
+              <option value="{{ empresa.id }}">{{ empresa.nome }}</option>
+              {% endfor %}
+            </select>
 
-                <label for="password">Senha</label>
-                <input name="password" type="password">
-                {% if "INVALID_PASSWORD" in errors %}
-                    <span style="color: red; font-size: small;">Senha deve conter ao menos 8 caracteres</span>
-                {% endif %}
+            <span>
+                ou <a href="/">registre uma Empresa</a>
+            </span>
 
+          </div>
 
-                <label for="confirm-password">Confirmar Senha</label>
-                <input name="confirm-password" type="password">
-                {% if "UNEQUAL_PASSWORD" in errors %}
-                    <span style="color: red; font-size: small;">Senhas não conferem</span>
-                {% endif %}
+          <div class="center vertical">
+            <label for="name">Nome Completo</label>
+            <input name="name" type="text" />
 
-                <button type="submit">Cadastrar-se</button>
-            </form>
-        </section>
+            <label for="username">Login</label>
+            <input name="username" type="text" />
+            {% if "INVALID_USER" in errors %}
+            <span style="color: red; font-size: small"
+              >Usuario indisponível</span
+            >
+            {% endif %} {% if "USER_UNAVAILABLE" in errors %}
+            <span style="color: red; font-size: small"
+              >Usuario indisponível</span
+            >
+            {% endif %}
+
+            <label for="email">Email</label>
+            <input name="email" type="email" />
+
+            <label for="password">Senha</label>
+            <input name="password" type="password" />
+            {% if "INVALID_PASSWORD" in errors %}
+            <span style="color: red; font-size: small"
+              >Senha deve conter ao menos 8 caracteres</span
+            >
+            {% endif %}
+
+            <label for="confirm-password">Confirmar Senha</label>
+            <input name="confirm-password" type="password" />
+            {% if "UNEQUAL_PASSWORD" in errors %}
+            <span style="color: red; font-size: small"
+              >Senhas não conferem</span
+            >
+            {% endif %}
+
+            <button type="submit">Cadastrar-se</button>
+          </div>
+
+        </form>
+      </section>
     </main>
-</body>
+  </body>
 </html>

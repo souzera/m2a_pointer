@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Matheus Barbosa" />
+    <meta name="description" content="Desafio Técnico M2A, ponto eletrônico" />
+    <meta name="keywords" content="M2A, Ponto Eletrônico, Desafio Técnico" />
+    <meta name="github" content="/souzera" />
+    <meta name="linkedin" content="/in/matheus-bsouza/" />
+
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/favicon.ico' %}"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <title>M2A Pointer</title>
+  </head>
+  <body style="padding-inline: 10vw">
+    <header class="center space-between">
+      <h1>M2A Pointer</h1>
+      <nav>
+        <ul>
+          <li><a href="/logout">Sair</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <div class="center space-between">
+          <h2>Olá, {{ funcionario.nome }}</h2>
+        </div>
+
+        <div class="center space-between">
+          <h3>Empresa: {{empresa.nome}}</h3>
+          <h3 id="hoje"></h3>
+        </div>
+        <table >
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Entrada</th>
+              <th>Saída</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ponto in pontos %}
+            <tr>
+              <td>{{ ponto.data }}</td>
+              <td>{{ ponto.entrada}}</td>
+              <td>{{ ponto.saida }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <br>
+
+      <section class="center flex-end">
+        <button id="bater-ponto-button">Bater Ponto</button>
+      </section>
+    </main>
+
+    <script src="{% static 'js/today.js' %}"></script>
+  </body>
+</html>

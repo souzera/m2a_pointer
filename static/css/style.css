@@ -67,7 +67,7 @@ header nav ul li a:hover {
     font-size: 1.3rem;
 }
 
-form input{
+form input, form select{
     padding: 0.5rem;
     margin: 0.5rem;
     border: 1px solid #000;
@@ -90,6 +90,68 @@ form button:hover{
     scale: 1.1;
 }
 
+table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid black;
+    padding: 1.5rem;
+}
+
+tr{
+    border-bottom: 1px solid black;
+    line-height: 3.5rem;
+}
+
+td{
+    text-align: center;
+}
+
+button{
+    font-size: larger;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+    border: 3px solid #000;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+button:hover{
+    scale: 1.1;
+}
+
+select {
+    width: 100%;
+    font-family: var(--main-font);
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: var(--light);
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+select:hover {
+    border-color: var(--zinc-500);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--zinc-700);
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+option {
+    font-family: var(--main-font);
+    padding: 0.5rem;
+    background-color: var(--light);
+}
+
+option:hover {
+    background-color: var(--zinc-100);
+}
+
 .center{
     display: flex;
     justify-content: center;
@@ -110,6 +172,14 @@ form button:hover{
 
 .space-evenly{
     justify-content: space-evenly;
+}
+
+.flex-start{
+    justify-content: flex-start;
+}
+
+.flex-end{
+    justify-content: flex-end;
 }
 
 .text-center{
