@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Matheus Barbosa" />
+    <meta name="description" content="Desafio Técnico M2A, ponto eletrônico" />
+    <meta name="keywords" content="M2A, Ponto Eletrônico, Desafio Técnico" />
+    <meta name="github" content="/souzera" />
+    <meta name="linkedin" content="/in/matheus-bsouza/" />
+
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/favicon.ico' %}"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <title>M2A Pointer</title>
+  </head>
+  <body style="padding-inline: 10vw">
+    <header class="center space-between">
+        <h1>M2A Pointer</h1>
+        <nav>
+          <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/login">Entrar</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="center vertical">
+        <h2>Cadastro de Empresa</h2>
+        <form class="center vertical" action="/empresa/register/" method="post">
+          {% csrf_token %}
+          <label for="name">Nome</label>
+          <input type="text" name="name" required />
+
+          <label for="address">Endereço</label>
+          <input type="text" name="address" required />
+
+          <button type="submit">Cadastrar</button>
+        </form>
+      </main>
+
+      <script>
+        const sucess = "{{ success }}"
+        const errors = "{{ errors }}"
+
+        const message = sucess ? sucess : errors
+        if (message) {
+          alert(message)
+        }
+        
+      </script>
+  </body>
+</html>

@@ -67,5 +67,27 @@
     </main>
 
     <script src="{% static 'js/today.js' %}"></script>
+    <script>
+      async function baterPonto(){
+        const token = '{{ csrf_token }}'
+        const data = {
+          'funcionario': '{{ funcionario.id }}',
+          'data': new Date().toISOString()
+        }
+
+        const response = await fetch('/record_point/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': token
+          },
+          body: JSON.stringify(data)
+        }).then(response => response.json()).then((data) => {
+          alert(data.message)
+          location.reload()
+        })
+      }
+      document.getElementById('bater-ponto-button').addEventListener('click', baterPonto)
+    </script>
   </body>
 </html>

@@ -21,7 +21,7 @@ class Funcionario(models.Model):
 class Ponto(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     data = models.DateField(auto_created=True)
-    entrada = models.TimeField(auto_created=True)
+    entrada = models.TimeField(auto_created=True, auto_now=True)
     saida = models.TimeField(blank=True, null=True)
 
     def get_diff(self):
@@ -36,4 +36,9 @@ class Ponto(models.Model):
         return getTimeDiff(datetime.combine(self.data, self.entrada), datetime.combine(self.data, self.saida))/3600
 
     def __str__(self):
-        return f"{self.funcionario.nome} - {self.data} - {self.get_diff()}"
+        diff = ''
+        try:
+            diff = self.get_diff()
+        except:
+            pass
+        return f"{self.funcionario.nome} - {self.data}"

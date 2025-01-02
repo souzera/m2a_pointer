@@ -2,16 +2,45 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from .models import *
 
-from django.http import HttpResponse
+from django.http import HttpResponse,  JsonResponse
+
+from datetime import datetime
+import json
+
 
 class HomePageView(TemplateView):
+    '''
+    [PT]
+        Página inicial
+
+    [EN]
+        Home page
+    '''
     template_name = 'index.html'
 
+'''
+    [PT]
+
+        Views de Autenticação e Registro
+
+    [EN]
+
+        Authentication and Register Views
+'''
 class RegisterPageView(TemplateView):
+    '''
+    [PT]
+        Página de registro
+
+    [EN]
+        Register page
+
+    '''
     template_name = 'register.html'
 
     def get_context_data(self, **kwargs):
@@ -120,6 +149,13 @@ class LoginPageView(TemplateView):
         return render(request, self.template_name, {'errors': ['INVALID_DATA']})
 
 def logout_view(request):
+    '''
+    [PT]
+        Deslogar usuário
+
+    [EN]
+        Logout
+    '''
     logout(request)
     return redirect('login')
 
@@ -140,3 +176,62 @@ class DashboardPageView(LoginRequiredMixin,TemplateView):
         context['pontos'] = pontos
 
         return context
+    
+
+class RegisterEmpresaPageView(TemplateView):
+    template_name = 'empresa/register.html'
+
+    def post(self, request):
+        data = request.POST.dict()
+        print(data)
+
+        try:
+            empresa = Empresa.objects.create(nome=data['name'], endereco=data['address'])
+            return render(request, self.template_name, {'success': f"{empresa.nome} cadastrada com sucesso!"})
+        except:
+            return render(request, self.template_name, {'error': f"Erro ao cadastrar {data['name']}"})
+
+
+'''
+[PT]
+
+    Metodo para controlar o ponto do funcionario
+'''
+@login_required(login_url='/login/')
+def record_point(request):
+    data = json.loads(request.body.decode('utf-8'))
+
+    day = datetime.strptime(data['data'], "%Y-%m-%dT%H:%M:%S.%fZ")
+    ponto = Ponto.objects.filter(data__year=day.year, data__month=day.month, data__day=day.day, funcionario__usuario=request.user).first()
+
+    if ponto and ponto.saida:
+        return JsonResponse({
+            "functionario": ponto.funcionario.nome,
+            "message": "Ponto já registrado",
+            "data": ponto.data.strftime('%Y-%m-%d'),
+            'status': 'error'
+        })
+
+    if ponto:
+        # Horario de saída
+        agora = datetime.now().time()
+        ponto.saida = agora
+        ponto.save()
+        return JsonResponse({
+            "functionario": ponto.funcionario.nome,
+            "data": ponto.data.strftime('%Y-%m-%d'),
+            'entrada': ponto.entrada.strftime('%H:%M:%S'),
+            'saida': ponto.saida.strftime('%H:%M:%S'),
+            'status': 'success',
+            "message": "Saída registrada com sucesso"
+        })
+
+    # Horario de entrada
+    ponto = Ponto.objects.create(data=day, funcionario=Funcionario.objects.get(usuario=request.user))
+    return JsonResponse({
+        "functionario": ponto.funcionario.nome,
+        "data": ponto.data.strftime('%Y-%m-%d'),
+        'entrada': ponto.entrada.strftime('%H:%M:%S'),
+        'status': 'success',
+        'message': "Entrada registrada com sucesso"
+    })
