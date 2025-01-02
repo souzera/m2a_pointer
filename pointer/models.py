@@ -21,7 +21,7 @@ class Funcionario(models.Model):
 class Ponto(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     data = models.DateField(auto_created=True)
-    entrada = models.TimeField(auto_created=True, auto_now=True)
+    entrada = models.TimeField(auto_created=True, auto_now_add=True)
     saida = models.TimeField(blank=True, null=True)
 
     def get_diff(self):
