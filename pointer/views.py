@@ -23,15 +23,6 @@ class HomePageView(TemplateView):
     '''
     template_name = 'index.html'
 
-'''
-    [PT]
-
-        Views de Autenticação e Registro
-
-    [EN]
-
-        Authentication and Register Views
-'''
 class RegisterPageView(TemplateView):
     '''
     [PT]
@@ -44,6 +35,22 @@ class RegisterPageView(TemplateView):
     template_name = 'register.html'
 
     def get_context_data(self, **kwargs):
+        '''
+        [PT]
+
+            Adicionar informações ao contexto
+
+            @param kwargs: dict
+            @return: dict
+        
+        [EN]
+
+            Add information to the context
+
+            @param kwargs: dict
+            @return: dict
+        '''
+
         context = super().get_context_data(**kwargs)
 
         context['empresas'] = Empresa.objects.all().order_by('nome')
@@ -134,9 +141,35 @@ class RegisterPageView(TemplateView):
         return redirect('dashboard')
 
 class LoginPageView(TemplateView):
+    '''
+    [PT]
+        Página de login
+    
+    [EN]
+        Login page
+    '''
     template_name = 'login.html'
 
     def post(self, request):
+        '''
+        [PT]
+
+            Realiza a autenticação do usuário
+            Consulta o banco de dados para verificar se o usuário existe
+            Se o usuário existir, redireciona para o dashboard
+
+            @param request: HttpRequest
+            @return: redirecionar para o dashboard ou renderizar a página de login com os erros
+
+        [EN]
+
+            Authenticate the user
+            Query the database to check if the user exists
+            If the user exists, redirect to the dashboard
+
+            @param request: HttpRequest
+            @return: redirect to dashboard or render login page with errors
+        '''
         data = request.POST.dict()
 
         user = authenticate(username=data['username'], password=data['password'])
@@ -151,19 +184,57 @@ class LoginPageView(TemplateView):
 def logout_view(request):
     '''
     [PT]
-        Deslogar usuário
+        Remover a sessão do usuário
+
+        @param request: HttpRequest
+        @return: redirecionar para a página de login
 
     [EN]
-        Logout
+        Remove the user's session
+
+        @param request: HttpRequest
+        @return: redirect to login page
     '''
     logout(request)
     return redirect('login')
 
 class DashboardPageView(LoginRequiredMixin,TemplateView):
+    '''
+    [PT]
+
+        Página de dashboard
+        Mostra todos os pontos do funcionario
+        Também possibilita os registros dos pontos
+
+        LoginRequiredMixin: Verifica se o usuário está logado
+
+    [EN]
+
+        Dashboard page
+        Shows all employee's points
+        Also allows point registration
+
+        LoginRequiredMixin: Check if the user is logged in
+    '''
     template_name = 'dashboard.html'
     login_url = '/login/'
 
     def get_context_data(self, **kwargs):
+        '''
+        [PT]
+
+            Adicionar informações ao contexto
+
+            @param kwargs: dict
+            @return: dict
+        
+        [EN]
+
+            Add information to the context
+
+            @param kwargs: dict
+            @return: dict
+        '''
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         
@@ -179,9 +250,33 @@ class DashboardPageView(LoginRequiredMixin,TemplateView):
     
 
 class RegisterEmpresaPageView(TemplateView):
+    '''
+    [PT]
+
+        Página de registro de empresa
+
+    [EN]
+
+        Register company page
+    '''
     template_name = 'empresa/register.html'
 
     def post(self, request):
+        '''
+        [PT]
+
+            Cadastrar empresa
+
+            @param request: HttpRequest
+            @return: renderizar a página de registro com a mensagem de sucesso ou erro
+
+        [EN]
+
+            Register company
+
+            @param request: HttpRequest
+            @return: render register page with success or error message
+        '''
         data = request.POST.dict()
         print(data)
 
@@ -192,13 +287,33 @@ class RegisterEmpresaPageView(TemplateView):
             return render(request, self.template_name, {'error': f"Erro ao cadastrar {data['name']}"})
 
 
-'''
-[PT]
-
-    Metodo para controlar o ponto do funcionario
-'''
 @login_required(login_url='/login/')
 def record_point(request):
+
+    '''
+    [PT]
+
+        Registrar ponto do funcionario
+        A função verifica se o ponto do funcionario já foi registrado no dia, caso sim, registra a saída
+        Caso contrário, registra a entrada.
+         
+        A atualização é renderizada na página do diário e no dashboard
+
+        @param request: HttpRequest
+        @return: JsonResponse
+
+    [EN]
+
+        Register employee's point
+        The function checks if the employee's point has already been registered on the day, if so, it registers the exit
+        Otherwise, it registers the entry.
+
+        The update is rendered on the diary page and on the dashboard
+
+        @param request: HttpRequest
+        @return: JsonResponse
+    '''
+
     data = json.loads(request.body.decode('utf-8'))
 
     day = datetime.strptime(data['data'], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -238,12 +353,45 @@ def record_point(request):
 
 
 class DiarioPageView(LoginRequiredMixin, TemplateView):
+    '''
+    [PT]
+
+        Página de diário
+        Lista os pontos de todos os funcionários da empresa
+        Filtragem dos pontos por data
+        Data inicial: data atual
+
+        LoginRequiredMixin: Verifica se o usuário está logado
+
+    [EN]
+
+        Diary page
+        Lists the points of all employees in the company
+        Filtering points by date
+        Initial date: current date
+
+        LoginRequiredMixin: Check if the user is logged in
+    '''
+
     template_name = 'empresa/diario.html'
     login_url = '/login/'
 
     def post(self, request):
-        data = request.POST.dict()
+        '''
+        [PT]
+            Filtrar os pontos do funcionario por data
 
+            @param request: HttpRequest
+            @return: renderizar a página de diário com os pontos filtrados
+        [EN]
+
+            Filter the employee's points by date
+
+            @param request: HttpRequest
+            @return: render the diary page with the filtered points
+        '''
+
+        data = request.POST.dict()
         selected_date = datetime.strptime(data['date'], "%Y-%m-%d")
         
         context = self.get_context_data()
@@ -254,6 +402,21 @@ class DiarioPageView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
+        '''
+        [PT]
+
+            Adicionar informações ao contexto
+
+            @param kwargs: dict
+            @return: dict
+        
+        [EN]
+
+            Add information to the context
+
+            @param kwargs: dict
+            @return: dict
+        '''
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         context['date'] = datetime.now().strftime('%Y-%m-%d')
