@@ -1,4 +1,23 @@
 function formatDate(element_id, date=new Date()) {
+  /**
+   * [PT]
+   * 
+   * Formatar a data no padrão dd/mm/aaaa
+   * 
+   * @param {string} element_id - ID do elemento que receberá a data formatada
+   * @param {Date} date - Data a ser formatada
+   * 
+   * @returns {string} - Data formatada
+   * 
+   * [EN]
+   * 
+   * Format the date in the pattern dd/mm/yyyy
+   * 
+   * @param {string} element_id - ID of the element that will receive the formatted date
+   * @param {Date} date - Date to be formatted
+   * 
+   * @returns {string} - Formatted date
+   */
   const dia = date.getDate();
   const mes = date.getMonth() + 1;
   const ano = date.getFullYear();
