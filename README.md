@@ -1,7 +1,6 @@
 # M2A Pointer
 
-![Static Badge](https://img.shields.io/badge/python-blue)
-![Static Badge](https://img.shields.io/badge/orm-django-3fb950)
+![Static Badge](https://img.shields.io/badge/python-blue) ![Static Badge](https://img.shields.io/badge/orm-django-3fb950)
 
 ## Guia de Instalação
 
