@@ -241,19 +241,22 @@ class DiarioPageView(LoginRequiredMixin, TemplateView):
     template_name = 'empresa/diario.html'
     login_url = '/login/'
 
+    def post(self, request):
+        data = request.POST.dict()
+
+        selected_date = datetime.strptime(data['date'], "%Y-%m-%d")
+        
+        context = self.get_context_data()
+
+        context['date'] = selected_date.strftime('%Y-%m-%d')
+        context['pontos'] = Ponto.objects.filter(funcionario__empresa=context['empresa'], data=context['date'])
+
+        return render(request, self.template_name, context)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         context['date'] = datetime.now().strftime('%Y-%m-%d')
-
-        date_str = self.request.GET.get('date', None)
-        if date_str:
-            selected_date = datetime.strptime(date_str, '%Y-%m-%d').date()
-        else:
-            selected_date = datetime.today().date()
-        context['selected_date'] = selected_date
-
-        print(selected_date)
         
         funcionario = Funcionario.objects.get(usuario=context['user'])
         empresa = Empresa.objects.get(id=funcionario.empresa.id)
