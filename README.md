@@ -66,7 +66,7 @@ Para utilizar a aplicação o usuário tem acesso a algumas rotas, sendo necess�
 - **Homepage `/`** : Página inicial da aplicação, a qual o usuário pode utilizar para as primeiras interações com a aplicação
 - **Register `register/`**: Página para o registro de novos usuário da aplicação
 - **Register Empresa `empresa/register/`**: Página para o registro de novas empresas
-- **Login `login/`**: Página de autenticação, a qual o usuário irá acessar as principais funcionalidades da aplicação
+- **Login `login/`**: Página de autenticação do usuário
 - **Dashboard `dashboard/`**: Página principal da aplicação que contém o registro dos pontos filtrados pelo funcionário(usuário)
 - **Diario `empresa/diario/`**: Página que irá exibir os pontos de todos os funcionario da empresa filtrando pela data selecionada pelo usuário.
 
