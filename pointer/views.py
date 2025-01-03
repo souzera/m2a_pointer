@@ -118,8 +118,11 @@ class RegisterPageView(TemplateView):
         data = request.POST.dict()
         errors = self.validate_form(data)
 
+        context = self.get_context_data()
+
         if len(errors) != 0:
-            return render(request, self.template_name, {'errors': errors})
+            context['errors'] = errors
+            return render(request, self.template_name, context)
         
         # Create user
         user = User.objects.create_user(data['username'], data['email'], data['password'])
