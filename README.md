@@ -70,7 +70,7 @@ Para utilizar a aplicação o usuário tem acesso a algumas rotas, sendo necess�
 - **Dashboard `dashboard/`**: Página principal da aplicação que contém o registro dos pontos filtrados pelo funcionário(usuário)
 - **Diario `empresa/diario/`**: Página que irá exibir os pontos de todos os funcionario da empresa filtrando pela data selecionada pelo usuário.
 
-## Contribuidores
+## Suporte e Dúvidas
 
 ### **Matheus Barbosa**
 
