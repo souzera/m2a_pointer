@@ -24,6 +24,7 @@
       <h1>M2A Pointer</h1>
       <nav>
         <ul>
+          <li><a href="/dashboard">Home</a></li>
           <li><a href="/logout">Sair</a></li>
         </ul>
       </nav>
@@ -31,18 +32,25 @@
 
     <main>
       <section>
+
         <div class="center space-between">
           <h2>Olá, {{ funcionario.nome }}</h2>
         </div>
-
+  
         <div class="center space-between">
           <h3>Empresa: {{empresa.nome}}</h3>
-          <h3 id="today"></h3>
+          <div class="center" style="gap: 24px">
+            <h3 id="selected-date"></h3>
+            <input type="date" id="input-date" name="date" />
+          </div>
         </div>
+      </section>
+
+      <section>
         <table >
           <thead>
             <tr>
-              <th>Data</th>
+              <th>Funcionário</th>
               <th>Entrada</th>
               <th>Saída</th>
             </tr>
@@ -50,7 +58,7 @@
           <tbody>
             {% for ponto in pontos %}
             <tr>
-              <td>{{ ponto.data }}</td>
+              <td>{{ ponto.funcionario.nome }}</td>
               <td>{{ ponto.entrada}}</td>
               <td>{{ ponto.saida|default_if_none:"--" }}</td>
             </tr>
@@ -58,42 +66,19 @@
           </tbody>
         </table>
       </section>
-
-      <br>
-
-      <section class="center flex-end" style="gap: 16px;">
-        <button id="navigate-to-diario">Ver Diário</button>
-        <button id="bater-ponto-button">Bater Ponto</button>
-      </section>
     </main>
 
-    <script src="{% static 'js/today.js' %}"></script>
-    <script src="{% static 'js/navigate-to.js' %}"></script>
+    <script src="{% static 'js/format-date.js' %}"></script>
     <script>
-      async function baterPonto() {
-        const token = "{{ csrf_token }}";
-        const data = {
-          funcionario: "{{ funcionario.id }}",
-          data: new Date().toISOString(),
-        };
-      
-        const response = await fetch("/record_point/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": token,
-          },
-          body: JSON.stringify(data),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            alert(data.message);
-            location.reload();
-          });
-      }
-      
-      document.getElementById("bater-ponto-button").addEventListener("click", baterPonto);
-      
+      const inputDate = document.getElementById("input-date");
+      const selectedDate = document.getElementById("selected-date");
+
+      inputDate.addEventListener("change", (event) => {
+        const [ano, mes, dia] = event.target.value.split("-");
+        selectedDate.innerText = `Data: ${dia.toString().padStart(2, "0")}/${mes
+          .toString()
+          .padStart(2, "0")}/${ano}`;
+      });
     </script>
   </body>
 </html>

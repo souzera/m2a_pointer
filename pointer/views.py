@@ -235,3 +235,32 @@ def record_point(request):
         'status': 'success',
         'message': "Entrada registrada com sucesso"
     })
+
+
+class DiarioPageView(LoginRequiredMixin, TemplateView):
+    template_name = 'empresa/diario.html'
+    login_url = '/login/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['date'] = datetime.now().strftime('%Y-%m-%d')
+
+        date_str = self.request.GET.get('date', None)
+        if date_str:
+            selected_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        else:
+            selected_date = datetime.today().date()
+        context['selected_date'] = selected_date
+
+        print(selected_date)
+        
+        funcionario = Funcionario.objects.get(usuario=context['user'])
+        empresa = Empresa.objects.get(id=funcionario.empresa.id)
+        pontos = Ponto.objects.filter(funcionario__empresa=empresa, data=context['date'])
+
+        context['funcionario'] = funcionario
+        context['empresa'] = empresa
+        context['pontos'] = pontos
+
+        return context

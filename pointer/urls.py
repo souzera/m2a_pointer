@@ -10,4 +10,5 @@ urlpatterns = [
     path('dashboard/', DashboardPageView.as_view(), name='dashboard'),
     path('empresa/register/', RegisterEmpresaPageView.as_view(), name='register_empresa'),
     path('record_point/', record_point, name='record_point'),
+    path('empresa/diario/', DiarioPageView.as_view(), name='diario'),
 ]
